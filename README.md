@@ -32,8 +32,6 @@ ZKsync implements native account abstraction. Given that SCAs (and paymasters) a
   },
 ```
 
-- Factory contracts that deploy other contracts must know the bytecode of the contract that they'll deploy (normally passed as a factory constructor param) and its correspondent `bytecodeHash` (passed as `factory_deps` on deployment). See the `deploy-dummy-fac.ts` and `deploy-dummy-proxy-fac.ts` scripts as reference. [Learn more about contract deployments on ZKsync here](https://docs.zksync.io/build/developer-reference/ethereum-differences/contract-deployment).
-
 - SCAs must be deployed via the `createAccount` or `create2Account` method of the `ContractDeployer.sol` system contract. The `hardhat-zksync` plugin provides the `hre.deployer` object that allows passing the deployment type as a parameter on the `deploy` method. See `deploy-dummy-acc.ts` script for reference.
 
 ```ts
@@ -45,6 +43,10 @@ const artifact = await hre.deployer.loadArtifact(contractArtifactName);
 ```
 
 - SCAs deployed using the default `create` or `create2` will not be identified as accounts by the protocol and sending transactions from these accounts will result in the error `Validation revert: Sender is not an account`.
+
+- Factory contracts that deploy other contracts must know the `bytecodeHash` of the contract that they'll deploy (normally passed as a factory constructor param) and its correspondent `bytecode` (passed as `factory_deps` on deployment). See the `deploy-dummy-fac.ts` and `deploy-dummy-proxy-fac.ts` scripts as reference. [Learn more about contract deployments on ZKsync here](https://docs.zksync.io/build/developer-reference/ethereum-differences/contract-deployment).
+
+- If the SCA is a proxy with the account logic in a different implementation contract, then the proxy must be deployed with `createAccount` or `create2Account`. The implementation can be deployed with `create` or `create2`.
 
 ## Setup
 
@@ -66,7 +68,7 @@ This example deploys the account directly using `hre.deployer.deploy` and intera
 2. Copy the contract address in the `ACCOUNT_ADDRESS` variable in the `fund-acc.ts` script. Run the  script to fund the account with `npx hardhat deploy-zksync --script fund-acc.ts`.
 3. Add the smart contract account address and the Greeter contract address in the `interact-dummy.ts` file. Run the script with ``npx hardhat deploy-zksync --script interact-dummy.ts`
 
-### Factory deployment
+### Factory account deployment
 
 Using the same `DummyAccount.sol` contract from the [default deployment example](#default-deployment).
 
@@ -76,7 +78,7 @@ In this example, the account is deployed from a factory contract (`DummyFactory.
 2. Copy the account address in the `ACCOUNT_ADDRESS` variable in the `fund-acc.ts` script. Run the  script to fund the account with `npx hardhat deploy-zksync --script fund-acc.ts`.
 3. Add the smart contract account address and the Greeter contract address in the `interact-from-fac-acc.ts` file. Run the script with ``npx hardhat deploy-zksync --script interact-from-fac-acc.ts`
 
-### Factory proxy deployment
+### Factory proxy account deployment
 
 In this example, we'll have a factory that deploys smart accounts that are proxies. For this, we'll use the `DummyInitAccount.sol` (which inherits from Openzeppelin initializable), and the `DummyProxyFactory.sol` factory contract.
 
