@@ -100,7 +100,6 @@ Testnet addresses and tx hashes:
 
 ## Troubleshooting
 
-- Verification of proxy factory contract fails with the current scripts. 
 - Funding the proxy smart contract accounts must be done from an account different from the proxy owner.
 
 ## Project Layout

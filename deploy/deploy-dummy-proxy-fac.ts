@@ -7,9 +7,9 @@ import {getWallet} from "./utils"
 // as well as verify it on Block Explorer if possible for the network
 export default async function (hre: HardhatRuntimeEnvironment) {
   // LOCAL
-  const IMPLEMENTATION_ADDR = "0xbE0e545504Eb4fA9Fa0de8D01CC227A4A3B8558D"
+  // const IMPLEMENTATION_ADDR = "0xbE0e545504Eb4fA9Fa0de8D01CC227A4A3B8558D"
   // testnet
-  // const IMPLEMENTATION_ADDR = "0xdC4f487fd545771Ae7F2073DB2793eeeDc32249f"
+  const IMPLEMENTATION_ADDR = "0xdC4f487fd545771Ae7F2073DB2793eeeDc32249f"
   console.log(`Running script on ${hre.network.name} network`);
   
   const facArtifactName = "DummyProxyFactory";

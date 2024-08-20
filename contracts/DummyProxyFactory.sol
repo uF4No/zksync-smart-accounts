@@ -6,13 +6,13 @@ import "@matterlabs/zksync-contracts/l2/system-contracts/libraries/SystemContrac
 
 contract DummyProxyFactory {
     bytes32 public aaBytecodeHash;
-    address public implementation;
+    address public logic;
 
     event AccountDeployed(address);
 
-    constructor(bytes32 _aaBytecodeHash, address _implementation) {
+    constructor(bytes32 _aaBytecodeHash, address _logic) {
         aaBytecodeHash = _aaBytecodeHash;
-        implementation = _implementation;
+        logic = _logic;
     }
 
     function deployProxyAccount(
@@ -29,7 +29,7 @@ contract DummyProxyFactory {
                         salt,
                         aaBytecodeHash,
                         // constructor params: address logic, address admin, bytes data
-                        abi.encode(implementation, msg.sender, ""),
+                        abi.encode(logic, msg.sender, ""),
                         IContractDeployer.AccountAbstractionVersion.Version1
                     )
                 )
